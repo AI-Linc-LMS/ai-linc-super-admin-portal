@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App layout helpers */
+.app-grid {
+  display: grid;
+  min-height: 100vh;
+}
+
+/* Temporary: hide fallback emoji span in header */
+span[role="img"] { display: none; }
