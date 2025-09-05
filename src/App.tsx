@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react'
 import Dashboard from './pages/Dashboard'
 import Users from './pages/Users'
 import Settings from './pages/Settings'
+import Organizations from './pages/Organizations'
+import OrganizationDetail from './pages/OrganizationDetail'
+import WhiteLabelMatrix from './pages/WhiteLabelMatrix'
 
 function App() {
   const [isDark, setIsDark] = useState(false)
@@ -59,6 +62,17 @@ function App() {
             )}
           </NavLink>
           <NavLink
+            to="/white-labeled"
+            className={({isActive}) => `w-full px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? 'bg-gray-200 dark:bg-gray-700 font-medium' : ''}`}
+            title="White-labeled"
+          >
+            {sidebarCollapsed ? (
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded bg-gray-100 dark:bg-gray-700">W</span>
+            ) : (
+              'White-labeled'
+            )}
+          </NavLink>
+          <NavLink
             to="/users"
             className={({isActive}) => `w-full px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? 'bg-gray-200 dark:bg-gray-700 font-medium' : ''}`}
             title="Users"
@@ -110,6 +124,11 @@ function App() {
         <section className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/white-labeled" element={<WhiteLabelMatrix />} />
+            <Route path="/white-labeled/:id" element={<OrganizationDetail />} />
+            {/** Backward-compatible routes (not in menu) */}
+            <Route path="/organizations" element={<Organizations />} />
+            <Route path="/organizations/:id" element={<OrganizationDetail />} />
             <Route path="/users" element={<Users />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
