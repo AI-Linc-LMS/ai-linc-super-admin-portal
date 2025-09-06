@@ -6,6 +6,8 @@ import Settings from './pages/Settings'
 import Organizations from './pages/Organizations'
 import OrganizationDetail from './pages/OrganizationDetail'
 import WhiteLabelMatrix from './pages/WhiteLabelMatrix'
+import Clients from './pages/Clients'
+import ClientDetail from './pages/ClientDetail'
 
 function App() {
   const [isDark, setIsDark] = useState(false)
@@ -73,6 +75,17 @@ function App() {
             )}
           </NavLink>
           <NavLink
+            to="/clients"
+            className={({isActive}) => `w-full px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? 'bg-gray-200 dark:bg-gray-700 font-medium' : ''}`}
+            title="Clients"
+          >
+            {sidebarCollapsed ? (
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded bg-gray-100 dark:bg-gray-700">C</span>
+            ) : (
+              'Clients'
+            )}
+          </NavLink>
+          <NavLink
             to="/users"
             className={({isActive}) => `w-full px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? 'bg-gray-200 dark:bg-gray-700 font-medium' : ''}`}
             title="Users"
@@ -126,6 +139,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/white-labeled" element={<WhiteLabelMatrix />} />
             <Route path="/white-labeled/:id" element={<OrganizationDetail />} />
+            <Route path="/clients" element={<Clients />} />
+            <Route path="/clients/:id" element={<ClientDetail />} />
             {/** Backward-compatible routes (not in menu) */}
             <Route path="/organizations" element={<Organizations />} />
             <Route path="/organizations/:id" element={<OrganizationDetail />} />
