@@ -96,7 +96,7 @@ function App() {
               'Users'
             )}
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/settings"
             className={({isActive}) => `w-full px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${isActive ? 'bg-gray-200 dark:bg-gray-700 font-medium' : ''}`}
             title="Settings"
@@ -106,7 +106,7 @@ function App() {
             ) : (
               'Settings'
             )}
-          </NavLink>
+          </NavLink> */}
         </nav>
       </aside>
       <main className="p-6">

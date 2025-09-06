@@ -15,7 +15,6 @@ export default function ClientDetail() {
   const [name, setName] = useState(org?.name ?? '')
   const [code, setCode] = useState(org?.code ?? '')
   const [domain, setDomain] = useState(org?.domain ?? '')
-  const [whiteLabeled, setWhiteLabeled] = useState(org?.whiteLabeled ?? true)
   const [logoUrl, setLogoUrl] = useState(org?.branding?.logoUrl ?? '')
   const [contactEmail, setContactEmail] = useState(org?.contactEmail ?? '')
 
@@ -24,7 +23,6 @@ export default function ClientDetail() {
     setName(org.name)
     setCode(org.code)
     setDomain(org.domain ?? '')
-    setWhiteLabeled(org.whiteLabeled)
     setLogoUrl(org.branding?.logoUrl ?? '')
     setContactEmail(org.contactEmail ?? '')
   }, [org?.id])
@@ -43,7 +41,7 @@ export default function ClientDetail() {
     update(org!.id, {
       name, code,
       domain: domain || undefined,
-      whiteLabeled,
+      whiteLabeled: true,
       branding: { logoUrl: logoUrl || undefined },
       contactEmail: contactEmail || undefined,
     })
@@ -119,49 +117,59 @@ export default function ClientDetail() {
           ) : null}
           <div>
             <h3 className="text-lg font-semibold">{org!.name}</h3>
+            <div className="mt-0.5 flex items-center gap-2 text-xs text-gray-500">
+              <span className="inline-flex items-center rounded-full border border-gray-200 dark:border-gray-700 px-2 py-0.5">{org!.code}</span>
+              <span className="truncate max-w-[50vw] sm:max-w-none">{org!.domain ?? '-'}</span>
+            </div>
             <div className="text-xs text-gray-500">Updated {new Date(org!.updatedAt).toLocaleString()}</div>
           </div>
         </div>
-        <Link className="text-indigo-600 hover:underline" to="/clients">Back to Clients</Link>
+        <Link className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-700 dark:hover:text-indigo-400" to="/clients" title="Back to Clients">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Back</span>
+        </Link>
       </div>
 
       <div className="grid gap-4 max-w-2xl">
         <h4 className="text-md font-semibold">Client Info</h4>
         <label className="grid gap-1">
           <span className="text-sm text-gray-700 dark:text-gray-300">Name</span>
-          <input value={name} onChange={e=>setName(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2" />
+          <input value={name} onChange={e=>setName(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
         </label>
         <label className="grid gap-1">
           <span className="text-sm text-gray-700 dark:text-gray-300">Code</span>
-          <input value={code} onChange={e=>setCode(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2" />
+          <input value={code} onChange={e=>setCode(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
         </label>
         <label className="grid gap-1">
           <span className="text-sm text-gray-700 dark:text-gray-300">Domain/Subdomain</span>
-          <input value={domain} onChange={e=>setDomain(e.target.value)} placeholder="e.g. college.ai-linc.app" className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2" />
+          <input value={domain} onChange={e=>setDomain(e.target.value)} placeholder="e.g. college.ai-linc.app" className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
         </label>
-        <label className="inline-flex items-center gap-2">
-          <input type="checkbox" checked={whiteLabeled} onChange={e=>setWhiteLabeled(e.target.checked)} />
-          <span>White-labeled</span>
-        </label>
+        
         <label className="grid gap-1">
           <span className="text-sm text-gray-700 dark:text-gray-300">Logo URL</span>
-          <input value={logoUrl} onChange={e=>setLogoUrl(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2" />
+          <input value={logoUrl} onChange={e=>setLogoUrl(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
         </label>
         <label className="grid gap-1">
           <span className="text-sm text-gray-700 dark:text-gray-300">Contact Email</span>
-          <input type="email" value={contactEmail} onChange={e=>setContactEmail(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2" />
+          <input type="email" value={contactEmail} onChange={e=>setContactEmail(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
         </label>
 
         <div className="flex gap-3">
-          <button type="button" onClick={saveClient} className="inline-flex items-center bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Save Changes</button>
-          <button type="button" onClick={() => setShowDelete(true)} className="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
+          <button type="button" onClick={saveClient} className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V7h18v12a2 2 0 0 1-2 2z"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 7h18"></path></svg>
+            <span>Save Changes</span>
+          </button>
+          <button type="button" onClick={() => setShowDelete(true)} className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/60">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+            <span>Delete</span>
+          </button>
         </div>
       </div>
 
       <div className="grid gap-3">
         <h4 className="text-md font-semibold">Courses</h4>
         <div className="flex items-center gap-2 flex-wrap">
-          <select value={addCourseId} onChange={e => setAddCourseId(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2 text-sm">
+          <select value={addCourseId} onChange={e => setAddCourseId(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60">
             {availableCourses.length === 0 && <option value="">No more courses available</option>}
             {availableCourses.map(c => (
               <option key={c.id} value={c.id}>{c.name}</option>
@@ -171,14 +179,14 @@ export default function ClientDetail() {
             value={addValue}
             onChange={e => setAddValue(e.target.value)}
             placeholder="value (optional)"
-            className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2 text-sm"
+            className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
           />
           <button type="button" onClick={addCourse} disabled={!addCourseId} className={`px-3 py-2 rounded text-sm ${addCourseId ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 cursor-not-allowed'}`}>Add Course</button>
         </div>
 
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300">
+            <thead className="border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-900/40">
               <tr>
                 <th className="py-2 pr-4">Course</th>
                 <th className="py-2 pr-4">Status</th>
