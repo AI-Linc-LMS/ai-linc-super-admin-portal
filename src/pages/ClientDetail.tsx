@@ -60,6 +60,22 @@ export default function ClientDetail() {
   const [detailsOpen, setDetailsOpen] = useState(false)
   const [editingDetails, setEditingDetails] = useState(false)
 
+  // Validation helpers
+  const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)
+  const isValidDomain = (v: string) => /^([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(v)
+  const isValidUrl = (v: string) => {
+    try { const u = new URL(v); return u.protocol === 'http:' || u.protocol === 'https:' } catch { return false }
+  }
+
+  const errors = {
+    name: name.trim() ? '' : 'Name is required',
+    code: /^[A-Za-z0-9_-]+$/.test(code.trim()) ? '' : (code.trim() ? 'Use letters, numbers, _ or -' : 'Code is required'),
+    domain: !domain.trim() || isValidDomain(domain.trim()) ? '' : 'Enter a valid domain (e.g. sub.example.com)',
+    logoUrl: !logoUrl.trim() || isValidUrl(logoUrl.trim()) ? '' : 'Enter a valid URL (http/https)',
+    contactEmail: !contactEmail.trim() || isValidEmail(contactEmail.trim()) ? '' : 'Enter a valid email address',
+  }
+  const canSave = editingDetails && Object.values(errors).every(e => !e)
+
   useEffect(() => {
     if (availableCourses.length > 0) setAddCourseId(availableCourses[0].id)
     else setAddCourseId('')
@@ -157,28 +173,65 @@ export default function ClientDetail() {
           <>
             <label className="grid gap-1">
               <span className="text-sm text-gray-700 dark:text-gray-300">Name</span>
-              <input disabled={!editingDetails} value={name} onChange={e=>setName(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+              <input
+                disabled={!editingDetails}
+                value={name}
+                onChange={e=>setName(e.target.value)}
+                aria-invalid={!!errors.name && editingDetails}
+                className={`bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 ${editingDetails && errors.name ? 'border-red-600 focus:ring-red-500/60' : 'border border-gray-300 dark:border-gray-700 focus:ring-indigo-500/60'} disabled:opacity-60`}
+              />
+              {editingDetails && errors.name ? <span className="text-xs text-red-600">{errors.name}</span> : null}
             </label>
             <label className="grid gap-1">
-              <span className="text-sm text-gray-700 dark:text-gray-300">Code</span>
-              <input disabled={!editingDetails} value={code} onChange={e=>setCode(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+              <span className="text-sm text-gray-700 dark:text-gray-300">Short Name</span>
+              <input
+                disabled={!editingDetails}
+                value={code}
+                onChange={e=>setCode(e.target.value)}
+                aria-invalid={!!errors.code && editingDetails}
+                className={`bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 ${editingDetails && errors.code ? 'border-red-600 focus:ring-red-500/60' : 'border border-gray-300 dark:border-gray-700 focus:ring-indigo-500/60'} disabled:opacity-60`}
+              />
+              {editingDetails && errors.code ? <span className="text-xs text-red-600">{errors.code}</span> : null}
             </label>
             <label className="grid gap-1">
               <span className="text-sm text-gray-700 dark:text-gray-300">Domain/Subdomain</span>
-              <input disabled={!editingDetails} value={domain} onChange={e=>setDomain(e.target.value)} placeholder="e.g. college.ai-linc.app" className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+              <input
+                disabled={!editingDetails}
+                value={domain}
+                onChange={e=>setDomain(e.target.value)}
+                placeholder="e.g. college.ai-linc.app"
+                aria-invalid={!!errors.domain && editingDetails}
+                className={`bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 ${editingDetails && errors.domain ? 'border-red-600 focus:ring-red-500/60' : 'border border-gray-300 dark:border-gray-700 focus:ring-indigo-500/60'} disabled:opacity-60`}
+              />
+              {editingDetails && errors.domain ? <span className="text-xs text-red-600">{errors.domain}</span> : null}
             </label>
             
             <label className="grid gap-1">
               <span className="text-sm text-gray-700 dark:text-gray-300">Logo URL</span>
-              <input disabled={!editingDetails} value={logoUrl} onChange={e=>setLogoUrl(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+              <input
+                disabled={!editingDetails}
+                value={logoUrl}
+                onChange={e=>setLogoUrl(e.target.value)}
+                aria-invalid={!!errors.logoUrl && editingDetails}
+                className={`bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 ${editingDetails && errors.logoUrl ? 'border-red-600 focus:ring-red-500/60' : 'border border-gray-300 dark:border-gray-700 focus:ring-indigo-500/60'} disabled:opacity-60`}
+              />
+              {editingDetails && errors.logoUrl ? <span className="text-xs text-red-600">{errors.logoUrl}</span> : null}
             </label>
             <label className="grid gap-1">
               <span className="text-sm text-gray-700 dark:text-gray-300">Contact Email</span>
-              <input disabled={!editingDetails} type="email" value={contactEmail} onChange={e=>setContactEmail(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+              <input
+                disabled={!editingDetails}
+                type="email"
+                value={contactEmail}
+                onChange={e=>setContactEmail(e.target.value)}
+                aria-invalid={!!errors.contactEmail && editingDetails}
+                className={`bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 ${editingDetails && errors.contactEmail ? 'border-red-600 focus:ring-red-500/60' : 'border border-gray-300 dark:border-gray-700 focus:ring-indigo-500/60'} disabled:opacity-60`}
+              />
+              {editingDetails && errors.contactEmail ? <span className="text-xs text-red-600">{errors.contactEmail}</span> : null}
             </label>
 
             <div className="flex gap-3">
-              <button type="button" disabled={!editingDetails} onClick={saveClient} className={`inline-flex items-center gap-2 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500/60 ${editingDetails ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 cursor-not-allowed'}`}>
+              <button type="button" disabled={!canSave} onClick={() => { if (canSave) saveClient() }} className={`inline-flex items-center gap-2 px-4 py-2 rounded focus:outline-none focus:ring-2 ${canSave ? 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500/60' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 cursor-not-allowed focus:ring-transparent'}`}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V7h18v12a2 2 0 0 1-2 2z"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 7h18"></path></svg>
                 <span>Save Changes</span>
               </button>
