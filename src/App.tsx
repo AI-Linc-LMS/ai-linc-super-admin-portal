@@ -9,30 +9,26 @@ import WhiteLabelMatrix from './pages/WhiteLabelMatrix'
 import Clients from './pages/Clients'
 import ClientDetail from './pages/ClientDetail'
 
-// Enhanced navigation items with icons
+// Navigation items (no emoji icons)
 const navItems = [
   { 
     to: '/', 
     label: 'Dashboard', 
-    icon: '📊',
     shortLabel: 'D'
   },
   { 
     to: '/white-labeled', 
     label: 'White-labeled', 
-    icon: '🏷️',
     shortLabel: 'W'
   },
   { 
     to: '/clients', 
     label: 'Clients', 
-    icon: '🏢',
     shortLabel: 'C'
   },
   { 
     to: '/users', 
     label: 'Users', 
-    icon: '👥',
     shortLabel: 'U'
   }
 ]
@@ -110,11 +106,10 @@ function App() {
             >
               {sidebarCollapsed ? (
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
-                  <span className="text-lg">{item.icon}</span>
+                  <span className="text-sm font-semibold">{item.shortLabel}</span>
                 </div>
               ) : (
                 <>
-                  <span className="text-lg">{item.icon}</span>
                   <span className="truncate">{item.label}</span>
                 </>
               )}
@@ -136,7 +131,7 @@ function App() {
               className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               title="Toggle theme"
             >
-              <span className="text-lg">{isDark ? '🌞' : '🌙'}</span>
+              <span className="text-sm font-semibold">{isDark ? 'L' : 'D'}</span>
             </button>
           </div>
         )}
@@ -171,7 +166,6 @@ function App() {
                 className="btn btn-secondary btn-sm"
                 title="Toggle theme"
               >
-                <span className="mr-2">{isDark ? '🌞' : '🌙'}</span>
                 {isDark ? 'Light' : 'Dark'} mode
               </button>
               
