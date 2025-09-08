@@ -16,21 +16,21 @@ const navItems = [
     label: 'Dashboard', 
     shortLabel: 'D'
   },
-  { 
-    to: '/white-labeled', 
-    label: 'White-labeled', 
-    shortLabel: 'W'
-  },
+  // { 
+  //   to: '/white-labeled', 
+  //   label: 'White-labeled', 
+  //   shortLabel: 'W'
+  // },
   { 
     to: '/clients', 
     label: 'Clients', 
     shortLabel: 'C'
   },
-  { 
-    to: '/users', 
-    label: 'Users', 
-    shortLabel: 'U'
-  }
+  // { 
+  //   to: '/users', 
+  //   label: 'Users', 
+  //   shortLabel: 'U'
+  // }
 ]
 
 function App() {
