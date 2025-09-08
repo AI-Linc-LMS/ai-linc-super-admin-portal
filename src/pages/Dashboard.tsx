@@ -145,7 +145,7 @@ export default function Dashboard() {
           <div className="p-6">
             <div className="space-y-4">
               {recent.map((o, index) => (
-                <div key={o.id} className={`flex items-center gap-4 p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 animate-slide-up`} style={{animationDelay: `${index * 0.1}s`}}>
+                <div key={o.id} className={`flex items-center gap-4 p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 animate-slide-up`} style={{ animationDelay: `${index * 0.1}s` }}>
                   {o.branding?.logoUrl ? (
                     <img src={o.branding.logoUrl} alt="logo" className="h-10 w-10 rounded-lg bg-white object-contain shadow-sm" />
                   ) : (
@@ -190,7 +190,7 @@ export default function Dashboard() {
           <div className="p-6">
             <div className="space-y-4">
               {topCourses.map((tc, index) => (
-                <div key={tc.id} className={`flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 animate-slide-up`} style={{animationDelay: `${index * 0.1}s`}}>
+                <div key={tc.id} className={`flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 animate-slide-up`} style={{ animationDelay: `${index * 0.1}s` }}>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-lg bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
                       <span className="text-indigo-600 dark:text-indigo-400 text-sm font-medium">{tc.name.slice(0, 2)}</span>
@@ -202,9 +202,9 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500" 
-                        style={{ width: `${pct(tc.count, totalOrgs)}%` }} 
+                      <div
+                        className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500"
+                        style={{ width: `${pct(tc.count, totalOrgs)}%` }}
                       />
                     </div>
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 w-10">
