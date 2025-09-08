@@ -79,13 +79,22 @@ export default function WhiteLabelMatrix() {
           <span className="text-xs text-gray-600 dark:text-gray-300">{enabledDraft ? 'Enabled' : 'Disabled'}</span>
         </label>
         <div className="flex items-center gap-2">
-          <input
-            placeholder="free / 299 / 7000"
-            value={valueDraft}
-            onChange={e => setValueDraft(e.target.value)}
-            disabled={!enabledDraft}
-            className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-2 py-1 text-sm disabled:opacity-50"
-          />
+          <div className="relative w-full">
+            <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+            <input
+              placeholder="Numbers only (e.g. 299)"
+              value={valueDraft}
+              inputMode="decimal"
+              pattern="[0-9]*[.]?[0-9]*"
+              onChange={e => {
+                const raw = e.target.value
+                const cleaned = raw.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+                setValueDraft(cleaned)
+              }}
+              disabled={!enabledDraft}
+              className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded pl-6 pr-2 py-1 text-sm disabled:opacity-50 w-full"
+            />
+          </div>
           <button
             type="button"
             disabled={!dirty}
@@ -116,10 +125,10 @@ export default function WhiteLabelMatrix() {
           />
           {!orgQuery && (
             <div className="flex items-center gap-2">
-              <button type="button" disabled={page<=1} onClick={() => setPage(p=>Math.max(1,p-1))} className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 disabled:opacity-50">Prev</button>
+              <button type="button" disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))} className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 disabled:opacity-50">Prev</button>
               <span>Page {page} / {totalPages}</span>
-              <button type="button" disabled={page>=totalPages} onClick={() => setPage(p=>Math.min(totalPages,p+1))} className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 disabled:opacity-50">Next</button>
-              <select value={pageSize} onChange={e=>{ setPageSize(parseInt(e.target.value)); setPage(1) }} className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700">
+              <button type="button" disabled={page >= totalPages} onClick={() => setPage(p => Math.min(totalPages, p + 1))} className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 disabled:opacity-50">Next</button>
+              <select value={pageSize} onChange={e => { setPageSize(parseInt(e.target.value)); setPage(1) }} className="px-2 py-1 rounded border border-gray-200 dark:border-gray-700">
                 <option value={4}>4 cols</option>
                 <option value={6}>6 cols</option>
                 <option value={8}>8 cols</option>
@@ -185,27 +194,27 @@ export default function WhiteLabelMatrix() {
           <div className="grid gap-3">
             <label className="grid gap-1">
               <span className="text-sm">Name</span>
-              <input value={form.name} onChange={e=>setForm(f=>({ ...f, name: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
+              <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
             </label>
             <label className="grid gap-1">
               <span className="text-sm">Code</span>
-              <input value={form.code} onChange={e=>setForm(f=>({ ...f, code: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
+              <input value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
             </label>
             <label className="grid gap-1">
               <span className="text-sm">Domain</span>
-              <input value={form.domain} onChange={e=>setForm(f=>({ ...f, domain: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
+              <input value={form.domain} onChange={e => setForm(f => ({ ...f, domain: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
             </label>
             <label className="inline-flex items-center gap-2">
-              <input type="checkbox" checked={form.whiteLabeled} onChange={e=>setForm(f=>({ ...f, whiteLabeled: e.target.checked }))} />
+              <input type="checkbox" checked={form.whiteLabeled} onChange={e => setForm(f => ({ ...f, whiteLabeled: e.target.checked }))} />
               <span>White-labeled</span>
             </label>
             <label className="grid gap-1">
               <span className="text-sm">Logo URL</span>
-              <input value={form.logoUrl} onChange={e=>setForm(f=>({ ...f, logoUrl: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
+              <input value={form.logoUrl} onChange={e => setForm(f => ({ ...f, logoUrl: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
             </label>
             <label className="grid gap-1">
               <span className="text-sm">Contact Email</span>
-              <input type="email" value={form.contactEmail} onChange={e=>setForm(f=>({ ...f, contactEmail: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
+              <input type="email" value={form.contactEmail} onChange={e => setForm(f => ({ ...f, contactEmail: e.target.value }))} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2" />
             </label>
           </div>
         )}

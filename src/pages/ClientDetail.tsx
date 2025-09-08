@@ -88,13 +88,22 @@ export default function ClientDetail() {
           </label>
         </td>
         <td className="py-2 pr-4">
-          <input
-            placeholder="free / 299 / 7000"
-            value={valueDraft}
-            onChange={e => setValueDraft(e.target.value)}
-            disabled={!isEnabled}
-            className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-2 py-1 text-sm disabled:opacity-50"
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+            <input
+              placeholder="Numbers only (e.g. 299)"
+              value={valueDraft}
+              inputMode="decimal"
+              pattern="[0-9]*[.]?[0-9]*"
+              onChange={e => {
+                const raw = e.target.value
+                const cleaned = raw.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+                setValueDraft(cleaned)
+              }}
+              disabled={!isEnabled}
+              className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded pl-6 pr-2 py-1 text-sm disabled:opacity-50"
+            />
+          </div>
         </td>
         <td className="py-2">
           <div className="flex items-center gap-2">
@@ -175,13 +184,22 @@ export default function ClientDetail() {
               <option key={c.id} value={c.id}>{c.name}</option>
             ))}
           </select>
-          <input
-            value={addValue}
-            onChange={e => setAddValue(e.target.value)}
-            placeholder="value (optional)"
-            className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
-          />
-          <button type="button" onClick={addCourse} disabled={!addCourseId} className={`px-3 py-2 rounded text-sm ${addCourseId ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 cursor-not-allowed'}`}>Add Course</button>
+          <div className="relative">
+            <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">₹</span>
+            <input
+              value={addValue}
+              inputMode="decimal"
+              pattern="[0-9]*[.]?[0-9]*"
+              onChange={e => {
+                const raw = e.target.value
+                const cleaned = raw.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+                setAddValue(cleaned)
+              }}
+              placeholder="Numbers only (optional)"
+              className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded pl-6 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
+            />
+          </div>
+          <button type="button" onClick={addCourse} disabled={!addCourseId} className={`px-3 py-2 rounded text-sm ${addCourseId ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 cursor-not-allowed'}`}>Add values in course</button>
         </div>
 
         <div className="overflow-x-auto">
