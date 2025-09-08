@@ -56,6 +56,10 @@ export default function ClientDetail() {
   const [addCourseId, setAddCourseId] = useState<string>('')
   const [addValue, setAddValue] = useState('')
 
+  // Client details UI state
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const [editingDetails, setEditingDetails] = useState(false)
+
   useEffect(() => {
     if (availableCourses.length > 0) setAddCourseId(availableCourses[0].id)
     else setAddCourseId('')
@@ -140,39 +144,51 @@ export default function ClientDetail() {
       </div>
 
       <div className="grid gap-4 max-w-2xl">
-        <h4 className="text-md font-semibold">Client Info</h4>
-        <label className="grid gap-1">
-          <span className="text-sm text-gray-700 dark:text-gray-300">Name</span>
-          <input value={name} onChange={e=>setName(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
-        </label>
-        <label className="grid gap-1">
-          <span className="text-sm text-gray-700 dark:text-gray-300">Code</span>
-          <input value={code} onChange={e=>setCode(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
-        </label>
-        <label className="grid gap-1">
-          <span className="text-sm text-gray-700 dark:text-gray-300">Domain/Subdomain</span>
-          <input value={domain} onChange={e=>setDomain(e.target.value)} placeholder="e.g. college.ai-linc.app" className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
-        </label>
-        
-        <label className="grid gap-1">
-          <span className="text-sm text-gray-700 dark:text-gray-300">Logo URL</span>
-          <input value={logoUrl} onChange={e=>setLogoUrl(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
-        </label>
-        <label className="grid gap-1">
-          <span className="text-sm text-gray-700 dark:text-gray-300">Contact Email</span>
-          <input type="email" value={contactEmail} onChange={e=>setContactEmail(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
-        </label>
-
-        <div className="flex gap-3">
-          <button type="button" onClick={saveClient} className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/60">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V7h18v12a2 2 0 0 1-2 2z"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 7h18"></path></svg>
-            <span>Save Changes</span>
+        <div className="flex items-center justify-between">
+          <button type="button" onClick={() => setDetailsOpen(v => !v)} className="text-md font-semibold inline-flex items-center gap-2">
+            <svg className={`transition-transform ${detailsOpen ? 'rotate-90' : ''}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <span>Client Info</span>
           </button>
-          <button type="button" onClick={() => setShowDelete(true)} className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/60">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
-            <span>Delete</span>
+          <button type="button" onClick={() => { setDetailsOpen(true); setEditingDetails(v => !v) }} className="px-3 py-1.5 rounded border border-gray-200 dark:border-gray-700 text-sm">
+            {editingDetails ? 'Stop Editing' : 'Edit'}
           </button>
         </div>
+        {detailsOpen && (
+          <>
+            <label className="grid gap-1">
+              <span className="text-sm text-gray-700 dark:text-gray-300">Name</span>
+              <input disabled={!editingDetails} value={name} onChange={e=>setName(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm text-gray-700 dark:text-gray-300">Code</span>
+              <input disabled={!editingDetails} value={code} onChange={e=>setCode(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm text-gray-700 dark:text-gray-300">Domain/Subdomain</span>
+              <input disabled={!editingDetails} value={domain} onChange={e=>setDomain(e.target.value)} placeholder="e.g. college.ai-linc.app" className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+            </label>
+            
+            <label className="grid gap-1">
+              <span className="text-sm text-gray-700 dark:text-gray-300">Logo URL</span>
+              <input disabled={!editingDetails} value={logoUrl} onChange={e=>setLogoUrl(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm text-gray-700 dark:text-gray-300">Contact Email</span>
+              <input disabled={!editingDetails} type="email" value={contactEmail} onChange={e=>setContactEmail(e.target.value)} className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:opacity-60" />
+            </label>
+
+            <div className="flex gap-3">
+              <button type="button" disabled={!editingDetails} onClick={saveClient} className={`inline-flex items-center gap-2 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500/60 ${editingDetails ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 cursor-not-allowed'}`}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V7h18v12a2 2 0 0 1-2 2z"></path><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 7h18"></path></svg>
+                <span>Save Changes</span>
+              </button>
+              <button type="button" onClick={() => setShowDelete(true)} className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/60">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                <span>Delete</span>
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="grid gap-3">
